@@ -1,4 +1,4 @@
-package br.com.ifpe.educamente_api.api;
+package br.com.ifpe.educamente_api.api.usuario;
 
 import java.util.List;
 
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.ifpe.educamente_api.modelo.Usuario;
-import br.com.ifpe.educamente_api.modelo.UsuarioService;
+import br.com.ifpe.educamente_api.modelo.usuario.Usuario;
+import br.com.ifpe.educamente_api.modelo.usuario.UsuarioService;
 import jakarta.validation.Valid;
 
 @RestController //determina que essa classe e do tipo Rest

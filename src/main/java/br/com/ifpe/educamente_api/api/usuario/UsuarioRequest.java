@@ -1,4 +1,4 @@
-package br.com.ifpe.educamente_api.api;
+package br.com.ifpe.educamente_api.api.usuario;
 
 import java.time.LocalDate;
 
@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import br.com.ifpe.educamente_api.modelo.Usuario;
+import br.com.ifpe.educamente_api.modelo.usuario.Usuario;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

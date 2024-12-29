@@ -1,4 +1,4 @@
-package br.com.ifpe.educamente_api.modelo;
+package br.com.ifpe.educamente_api.modelo.usuario;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

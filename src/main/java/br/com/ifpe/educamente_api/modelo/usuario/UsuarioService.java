@@ -1,9 +1,10 @@
-package br.com.ifpe.educamente_api.modelo;
+package br.com.ifpe.educamente_api.modelo.usuario;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import br.com.ifpe.educamente_api.util.exception.UsuarioException;
 import jakarta.transaction.Transactional;
 
