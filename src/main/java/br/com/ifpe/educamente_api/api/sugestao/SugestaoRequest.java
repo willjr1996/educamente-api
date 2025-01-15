@@ -1,10 +1,10 @@
-package br.com.ifpe.educamente_api.api.notificacao;
+package br.com.ifpe.educamente_api.api.sugestao;
 
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import br.com.ifpe.educamente_api.modelo.notificacao.Notificacao;
+import br.com.ifpe.educamente_api.modelo.sugestao.Sugestao;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class NotificacaoRequest {
+public class SugestaoRequest {
+
+    private Long idComportamento;
+
+    private Long idSaudeMental;
+
+    private Long idAlimentacao;
 
     @NotNull(message = "A mensagem é de preenchimento obrigatório")
     @NotEmpty(message = "A mensagem é de preenchimento obrigatório")
@@ -26,9 +32,9 @@ public class NotificacaoRequest {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataRegistro;
 
-    public Notificacao build() {
+    public Sugestao build() {
 
-        return Notificacao.builder()
+        return Sugestao.builder()
                 .mensagem(mensagem)
                 .dataRegistro(dataRegistro)           
                 .build();

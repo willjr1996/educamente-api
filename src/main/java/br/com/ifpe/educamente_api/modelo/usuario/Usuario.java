@@ -1,14 +1,17 @@
 package br.com.ifpe.educamente_api.modelo.usuario;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.hibernate.annotations.SQLRestriction;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import br.com.ifpe.educamente_api.modelo.sugestao.Sugestao;
 import br.com.ifpe.educamente_api.util.entity.EntidadeAuditavel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +30,9 @@ import lombok.Setter;
 @AllArgsConstructor // Cria um construtor com todos os atributos.
 @NoArgsConstructor // Cria um construtor vazio.
 public class Usuario extends EntidadeAuditavel {
+
+    @OneToMany(mappedBy="Sugestao")
+    private List<Sugestao> sugestao;
     
     @Column (nullable = false, length = 100)
     private String nome;
