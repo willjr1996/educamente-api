@@ -25,7 +25,7 @@ import jakarta.validation.Valid;
 @RestController //determina que essa classe e do tipo Rest
 @RequestMapping("/api/sugestao") //DETERMINA A URL para acesar as funçoes dessa classe
 @CrossOrigin //recber requisiçoes javascript
-public class SugestaoaController {
+public class SugestaoController {
 
     @Autowired
    private SugestaoService sugestaoService;

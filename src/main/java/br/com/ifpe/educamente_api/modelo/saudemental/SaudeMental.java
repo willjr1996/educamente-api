@@ -1,14 +1,12 @@
 package br.com.ifpe.educamente_api.modelo.saudemental;
 
-import java.util.List;
 
 import org.hibernate.annotations.SQLRestriction;
 
-import br.com.ifpe.educamente_api.modelo.sugestao.Sugestao;
+
 import br.com.ifpe.educamente_api.util.entity.EntidadeAuditavel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,8 +24,6 @@ import lombok.Setter;
 @NoArgsConstructor // Cria um construtor vazio.
 public class SaudeMental extends EntidadeAuditavel {
 
-    @OneToMany(mappedBy="Sugestao")
-    private List<Sugestao> sugestao;
     
     @Column 
     private String conteudo;
