@@ -1,10 +1,12 @@
 package br.com.ifpe.educamente_api.modelo.usuario;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.ifpe.educamente_api.modelo.acesso.ContaService;
+import br.com.ifpe.educamente_api.modelo.acesso.Perfil;
+import br.com.ifpe.educamente_api.modelo.acesso.PerfilRepository;
 import br.com.ifpe.educamente_api.util.exception.UsuarioException;
 import jakarta.transaction.Transactional;
 
@@ -13,9 +15,23 @@ public class UsuarioService {
     @Autowired // cria instâncias automaticamente
     private UsuarioRepository repository;
 
+    @Autowired
+    private ContaService contaService;
+
+    @Autowired
+    private PerfilRepository perfilContaRepository;
+
+
 
     @Transactional // orgazina 
     public Usuario save(Usuario usuario) {
+        
+        contaService.save(usuario.getConta());
+
+        for (Perfil perfil : usuario.getConta().getRoles()) {
+           perfil.setHabilitado(Boolean.TRUE);
+           perfilContaRepository.save(perfil);
+        }
 
         if (!isValidFoneCelular(usuario.getFoneCelular())){
             throw new UsuarioException(UsuarioException.MSG_PREFIXO_USUARIO);

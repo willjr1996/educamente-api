@@ -19,43 +19,43 @@ import br.com.ifpe.educamente_api.modelo.saudemental.SaudeMental;
 import br.com.ifpe.educamente_api.modelo.saudemental.SaudeMentalService;
 import jakarta.validation.Valid;
 
-@RestController //determina que essa classe e do tipo Rest
-@RequestMapping("/api/saudemental") //DETERMINA A URL para acesar as funçoes dessa classe
-@CrossOrigin //recber requisiçoes javascript
+@RestController // determina que essa classe e do tipo Rest
+@RequestMapping("/api/saudemental") // DETERMINA A URL para acesar as funçoes dessa classe
+@CrossOrigin // receber requisiçoes javascript
 public class SaudeMentalController {
-    
+
     @Autowired
     private SaudeMentalService saudeMentalService;
- 
-    @PostMapping //pra acessar essa funçao tem que fazer requisiçoes POST
+
+    @PostMapping // pra acessar essa funçao tem que fazer requisiçoes POST
     public ResponseEntity<SaudeMental> save(@RequestBody @Valid SaudeMentalRequest request) {
- 
+
         SaudeMental saudeMental = saudeMentalService.save(request.build());
         return new ResponseEntity<SaudeMental>(saudeMental, HttpStatus.CREATED);
     }
- 
-        @GetMapping
-     public List<SaudeMental> listarTodos() {
-         return saudeMentalService.listarTodos();
-     }
- 
-     @GetMapping("/{id}")
-     public SaudeMental obterPorID(@PathVariable Long id) {
-         return saudeMentalService.obterPorID(id);
-     }
- 
-      @PutMapping("/{id}") 
-  public ResponseEntity<SaudeMental> update(@PathVariable("id") Long id, @RequestBody SaudeMentalRequest request) {
- 
+
+    @GetMapping
+    public List<SaudeMental> listarTodos() {
+        return saudeMentalService.listarTodos();
+    }
+
+    @GetMapping("/{id}")
+    public SaudeMental obterPorID(@PathVariable Long id) {
+        return saudeMentalService.obterPorID(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<SaudeMental> update(@PathVariable("id") Long id, @RequestBody SaudeMentalRequest request) {
+
         saudeMentalService.update(id, request.build());
         return ResponseEntity.ok().build();
-  }
- 
-  @DeleteMapping("/{id}")
+    }
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
- 
-        saudeMentalService.delete(id);       
+
+        saudeMentalService.delete(id);
         return ResponseEntity.ok().build();
     }
- 
+
 }
