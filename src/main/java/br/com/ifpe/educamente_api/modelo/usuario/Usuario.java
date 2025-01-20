@@ -47,5 +47,4 @@ public class Usuario extends EntidadeAuditavel {
  
     @Column
     private String foneCelular;
-
  }
