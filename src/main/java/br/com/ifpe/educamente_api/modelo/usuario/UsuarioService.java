@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import br.com.ifpe.educamente_api.modelo.acesso.ContaService;
 import br.com.ifpe.educamente_api.modelo.acesso.Perfil;
 import br.com.ifpe.educamente_api.modelo.acesso.PerfilRepository;
+import br.com.ifpe.educamente_api.modelo.mensagens.EmailService;
 import br.com.ifpe.educamente_api.util.exception.UsuarioException;
 import jakarta.transaction.Transactional;
 
@@ -21,7 +22,8 @@ public class UsuarioService {
     @Autowired
     private PerfilRepository perfilContaRepository;
 
-
+    @Autowired
+    private EmailService emailService;
 
     @Transactional // orgazina 
     public Usuario save(Usuario usuario) {
@@ -38,7 +40,12 @@ public class UsuarioService {
         }
 
         usuario.setHabilitado(Boolean.TRUE);
-        return repository.save(usuario);
+
+        usuario = repository.save(usuario);
+        
+        emailService.enviarEmailConfirmacaoCadastroCliente(usuario);
+        
+        return usuario;
     }
 
     public List<Usuario> listarTodos() {

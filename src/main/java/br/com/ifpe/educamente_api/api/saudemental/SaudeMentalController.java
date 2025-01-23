@@ -27,11 +27,11 @@ public class SaudeMentalController {
     @Autowired
     private SaudeMentalService saudeMentalService;
 
-    @PostMapping // pra acessar essa funçao tem que fazer requisiçoes POST
+    @PostMapping
     public ResponseEntity<SaudeMental> save(@RequestBody @Valid SaudeMentalRequest request) {
-
-        SaudeMental saudeMental = saudeMentalService.save(request.build());
-        return new ResponseEntity<SaudeMental>(saudeMental, HttpStatus.CREATED);
+        // Chama o serviço para salvar o SaudeMental
+        SaudeMental saudeMental = saudeMentalService.save(request);
+        return new ResponseEntity<>(saudeMental, HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -46,9 +46,11 @@ public class SaudeMentalController {
 
     @PutMapping("/{id}")
     public ResponseEntity<SaudeMental> update(@PathVariable("id") Long id, @RequestBody SaudeMentalRequest request) {
-
-        saudeMentalService.update(id, request.build());
-        return ResponseEntity.ok().build();
+        // Chama o serviço de atualização, passando o id e a requisição
+        SaudeMental saudeMentalAtualizado = saudeMentalService.update(id, request);
+    
+        // Retorna o status 200 (OK) com o objeto atualizado no corpo da resposta
+        return ResponseEntity.ok(saudeMentalAtualizado);
     }
 
     @DeleteMapping("/{id}")

@@ -1,16 +1,22 @@
 package br.com.ifpe.educamente_api.modelo.usuario;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.hibernate.annotations.SQLRestriction;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.com.ifpe.educamente_api.modelo.acesso.Conta;
+import br.com.ifpe.educamente_api.modelo.alimentacao.Alimentacao;
+import br.com.ifpe.educamente_api.modelo.comportamento.Comportamento;
+import br.com.ifpe.educamente_api.modelo.saudemental.SaudeMental;
 import br.com.ifpe.educamente_api.util.entity.EntidadeAuditavel;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;

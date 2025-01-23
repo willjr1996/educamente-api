@@ -14,47 +14,47 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-
 import br.com.ifpe.educamente_api.modelo.comportamento.Comportamento;
 import br.com.ifpe.educamente_api.modelo.comportamento.ComportamentoService;
 import jakarta.validation.Valid;
 
-@RestController //determina que essa classe e do tipo Rest
-@RequestMapping("/api/comportamento") //DETERMINA A URL para acesar as funçoes dessa classe
-@CrossOrigin //recber requisiçoes javascript
+@RestController // determina que essa classe e do tipo Rest
+@RequestMapping("/api/comportamento") // DETERMINA A URL para acesar as funçoes dessa classe
+@CrossOrigin // recber requisiçoes javascript
 public class ComportamentoController {
     @Autowired
     private ComportamentoService comportamentoService;
- 
-    @PostMapping //pra acessar essa funçao tem que fazer requisiçoes POST
+
+    @PostMapping // pra acessar essa funçao tem que fazer requisiçoes POST
     public ResponseEntity<Comportamento> save(@RequestBody @Valid ComportamentoRequest request) {
- 
-        Comportamento comportamento = comportamentoService.save(request.build());
-        return new ResponseEntity<Comportamento>(comportamento, HttpStatus.CREATED);
+
+        Comportamento comportamento = comportamentoService.save(request);
+        return new ResponseEntity<>(comportamento, HttpStatus.CREATED);
     }
- 
-        @GetMapping
-     public List<Comportamento> listarTodos() {
-         return comportamentoService.listarTodos();
-     }
- 
-     @GetMapping("/{id}")
-     public Comportamento obterPorID(@PathVariable Long id) {
-         return comportamentoService.obterPorID(id);
-     }
- 
-      @PutMapping("/{id}") 
-  public ResponseEntity<Comportamento> update(@PathVariable("id") Long id, @RequestBody ComportamentoRequest request) {
- 
-        comportamentoService.update(id, request.build());
-        return ResponseEntity.ok().build();
-  }
- 
-  @DeleteMapping("/{id}")
+
+    @GetMapping
+    public List<Comportamento> listarTodos() {
+        return comportamentoService.listarTodos();
+    }
+
+    @GetMapping("/{id}")
+    public Comportamento obterPorID(@PathVariable Long id) {
+        return comportamentoService.obterPorID(id);
+    }
+
+        @PutMapping("/{id}")
+    public ResponseEntity<Comportamento> update(@PathVariable("id") Long id, @RequestBody ComportamentoRequest request) {
+        // Chama o serviço de atualização, passando o id e a requisição
+        Comportamento comportamentoAtualizado = comportamentoService.update(id, request);
+    
+        // Retorna o status 200 (OK) com o objeto atualizado no corpo da resposta
+        return ResponseEntity.ok(comportamentoAtualizado);
+    }
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
- 
-        comportamentoService.delete(id);       
+
+        comportamentoService.delete(id);
         return ResponseEntity.ok().build();
     }
- }
+}

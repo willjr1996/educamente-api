@@ -41,8 +41,18 @@ public class SecurityConfiguration {
 
                 .requestMatchers(HttpMethod.POST, "/api/usuario").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/auth/*").permitAll()
 
+                //rotas liberadas provisoriamente
+                .requestMatchers(HttpMethod.POST, "/api/redefinir/*").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/sugestao").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/alimentacao").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/saudemental").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/comportamento").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/alimentacao").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/saudemental").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/comportamento").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/notificacao/*").permitAll()
+                
                 .requestMatchers(HttpMethod.GET, "/api-docs/*").permitAll()
                 .requestMatchers(HttpMethod.GET, "/swagger-ui/*").permitAll()
 

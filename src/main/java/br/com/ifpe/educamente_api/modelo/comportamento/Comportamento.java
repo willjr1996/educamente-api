@@ -3,9 +3,12 @@ package br.com.ifpe.educamente_api.modelo.comportamento;
 
 import org.hibernate.annotations.SQLRestriction;
 
+import br.com.ifpe.educamente_api.modelo.usuario.Usuario;
 import br.com.ifpe.educamente_api.util.entity.EntidadeAuditavel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +26,11 @@ import lombok.Setter;
 @NoArgsConstructor // Cria um construtor vazio.
 public class Comportamento extends EntidadeAuditavel {
     
-    @Column 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+    
+    @Column (nullable = false)
     private String conteudo;
  
  }

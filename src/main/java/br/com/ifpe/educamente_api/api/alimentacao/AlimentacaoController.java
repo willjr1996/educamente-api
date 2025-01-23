@@ -1,8 +1,6 @@
 package br.com.ifpe.educamente_api.api.alimentacao;
 
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import br.com.ifpe.educamente_api.modelo.alimentacao.Alimentacao;
 import br.com.ifpe.educamente_api.modelo.alimentacao.AlimentacaoService;
 import jakarta.validation.Valid;
@@ -30,31 +27,31 @@ public class AlimentacaoController {
     @PostMapping //pra acessar essa funçao tem que fazer requisiçoes POST
     public ResponseEntity<Alimentacao> save(@RequestBody @Valid AlimentacaoRequest request) {
  
-        Alimentacao alimentacao = alimentacaoService.save(request.build());
-        return new ResponseEntity<Alimentacao>(alimentacao, HttpStatus.CREATED);
+            Alimentacao alimentacao = alimentacaoService.save(request);
+            return new ResponseEntity<>(alimentacao, HttpStatus.CREATED);
     }
  
         @GetMapping
-     public List<Alimentacao> listarTodos() {
-         return alimentacaoService.listarTodos();
+        public List<Alimentacao> listarTodos() {
+            return alimentacaoService.listarTodos();
      }
  
-     @GetMapping("/{id}")
-     public Alimentacao obterPorID(@PathVariable Long id) {
-         return alimentacaoService.obterPorID(id);
+        @GetMapping("/{id}")
+        public Alimentacao obterPorID(@PathVariable Long id) {
+            return alimentacaoService.obterPorID(id);
      }
  
-      @PutMapping("/{id}") 
-  public ResponseEntity<Alimentacao> update(@PathVariable("id") Long id, @RequestBody AlimentacaoRequest request) {
+        @PutMapping("/{id}") 
+        public ResponseEntity<Alimentacao> update(@PathVariable("id") Long id, @RequestBody AlimentacaoRequest request) {
  
-        alimentacaoService.update(id, request.build());
-        return ResponseEntity.ok().build();
+            Alimentacao alimentacaoAtualizado = alimentacaoService.update(id, request);
+            return ResponseEntity.ok(alimentacaoAtualizado);
   }
  
-  @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        @DeleteMapping("/{id}")
+        public ResponseEntity<Void> delete(@PathVariable Long id) {
  
-        alimentacaoService.delete(id);       
-        return ResponseEntity.ok().build();
+            alimentacaoService.delete(id);       
+            return ResponseEntity.ok().build();
     }
  }

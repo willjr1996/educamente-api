@@ -52,7 +52,7 @@ public class SugestaoController {
        return new ResponseEntity<Sugestao>(sugestao, HttpStatus.CREATED);
    }
 
-       @GetMapping
+    @GetMapping
     public List<Sugestao> listarTodos() {
         return sugestaoService.listarTodos();
     }
@@ -62,15 +62,15 @@ public class SugestaoController {
         return sugestaoService.obterPorID(id);
     }
 
-     @PutMapping("/{id}") 
- public ResponseEntity<Sugestao> update(@PathVariable("id") Long id, @RequestBody SugestaoRequest request) {
+    @PutMapping("/{id}") 
+    public ResponseEntity<Sugestao> update(@PathVariable("id") Long id, @RequestBody SugestaoRequest request) {
 
        sugestaoService.update(id, request.build());
        return ResponseEntity.ok().build();
  }
 
- @DeleteMapping("/{id}")
-   public ResponseEntity<Void> delete(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
 
        sugestaoService.delete(id);       
        return ResponseEntity.ok().build();
