@@ -12,72 +12,87 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import br.com.ifpe.educamente_api.modelo.acesso.Conta;
 import br.com.ifpe.educamente_api.modelo.acesso.ContaService;
 import br.com.ifpe.educamente_api.modelo.acesso.Perfil;
 import br.com.ifpe.educamente_api.modelo.acesso.PerfilRepository;
 import br.com.ifpe.educamente_api.modelo.mensagens.EmailService;
-import br.com.ifpe.educamente_api.modelo.usuario.Usuario;
-import br.com.ifpe.educamente_api.modelo.usuario.UsuarioRepository;
-import br.com.ifpe.educamente_api.modelo.usuario.UsuarioService;
 import br.com.ifpe.educamente_api.util.exception.UsuarioException;
 
 class UsuarioServiceTest {
 
     @Mock
     private UsuarioRepository usuarioRepository;
+
     @Mock
     private PerfilRepository perfilRepository;
+
+    @Mock
+    private ContaService contaService;
+
+    @Mock
+    private EmailService emailService;
 
     @InjectMocks
     private UsuarioService usuarioService;
 
-    @InjectMocks
-    private ContaService contaService;
-
-    @InjectMocks
-    private EmailService emailService;
-
     private Usuario usuario;
+    private Conta conta;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        // Configuração inicial do usuário
+        // Criando um mock de Conta (evita NullPointerException)
+        conta = new Conta();
+        conta.setUsername("carlos@email.com");
+        conta.setPassword("senha123"); // Define um valor inicial para evitar null
+        conta.setHabilitado(true);
+
+        // Criando um mock de Usuario
         usuario = new Usuario();
         usuario.setId(1L);
         usuario.setNome("Carlos");
         usuario.setCpf("12345678901");
         usuario.setFoneCelular("(81)99999-9999");
+        usuario.setConta(conta); // Associa a conta ao usuário
+
+        // Criando um perfil válido para a conta
+        Perfil perfil = new Perfil();
+        perfil.setHabilitado(true);
+
+        // **MOCKANDO OS SERVIÇOS PARA SEGUIR A ORDEM CORRETA DO SAVE**
+        
+        // 1️⃣ Primeiro, salvamos a Conta
+        when(contaService.save(any(Conta.class))).thenAnswer(invocation -> {
+            Conta contaMock = invocation.getArgument(0);
+            contaMock.setPassword("senhaCodificada"); // Simula criptografia da senha
+            return contaMock;
+        });
+
+        // 2️⃣ Depois, salvamos os perfis
+        when(perfilRepository.save(any(Perfil.class))).thenReturn(perfil);
+
+        // 3️⃣ Por fim, salvamos o usuário
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> {
+            Usuario usuarioMock = invocation.getArgument(0);
+            usuarioMock.setId(1L); // Simula ID gerado pelo banco
+            return usuarioMock;
+        });
     }
 
-
-    
-    
-
-
-
     @Test
-    void testSave_InvalidPhoneNumber() {
+    void testSave_ShouldThrowException_WhenPhoneNumberIsInvalid() {
         // Configura um telefone inválido
         usuario.setFoneCelular("(82)98765-4321");
 
-        // Mock do comportamento do repositório para evitar NullPointerException
-        when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
-
-        // Verifica que a exceção é lançada devido ao número de telefone inválido
-
+        // Executa e verifica a exceção
         UsuarioException exception = assertThrows(UsuarioException.class, () -> usuarioService.save(usuario));
 
-        // Valida a mensagem da exceção
         assertNotNull(exception, "A exceção não deveria ser nula");
-        assertTrue(exception.getMessage().contains(UsuarioException.MSG_PREFIXO_USUARIO),
-                   "A mensagem da exceção deveria conter 'Só é permitido usuários com um número de Pernambuco'");
+        assertTrue(exception.getMessage().contains("Só é permitido usuários com um número de Pernambuco"),
+                   "A mensagem da exceção deveria conter a restrição do número de telefone");
     }
-    
-    
-    
-
 
     @Test
     void testUpdate_ExistingUser() {
@@ -99,6 +114,23 @@ class UsuarioServiceTest {
 
         // Verifica interações com o mock
         verify(usuarioRepository, times(1)).save(usuario);
+    }
+
+    @Test
+    void testUpdate_ShouldThrowException_WhenPhoneNumberIsInvalid() {
+        // Mock do comportamento do repositório
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
+
+        // Configuração do usuário atualizado com telefone inválido
+        Usuario usuarioAtualizado = new Usuario();
+        usuarioAtualizado.setFoneCelular("(82)98765-4321");
+
+        // Verifica que a exceção é lançada
+        UsuarioException exception = assertThrows(UsuarioException.class, () -> usuarioService.update(1L, usuarioAtualizado));
+
+        assertNotNull(exception, "A exceção não deveria ser nula");
+        assertTrue(exception.getMessage().contains("Só é permitido usuários com um número de Pernambuco"),
+                   "A mensagem da exceção deveria conter a restrição do número de telefone");
     }
 
     @Test
