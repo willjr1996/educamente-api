@@ -1,4 +1,4 @@
-package br.com.ifpe.educamente_api.modelo.usuario;
+package br.com.ifpe.educamente_api;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -17,6 +17,9 @@ import br.com.ifpe.educamente_api.modelo.acesso.ContaService;
 import br.com.ifpe.educamente_api.modelo.acesso.Perfil;
 import br.com.ifpe.educamente_api.modelo.acesso.PerfilRepository;
 import br.com.ifpe.educamente_api.modelo.mensagens.EmailService;
+import br.com.ifpe.educamente_api.modelo.usuario.Usuario;
+import br.com.ifpe.educamente_api.modelo.usuario.UsuarioRepository;
+import br.com.ifpe.educamente_api.modelo.usuario.UsuarioService;
 import br.com.ifpe.educamente_api.util.exception.UsuarioException;
 
 class UsuarioServiceTest {
