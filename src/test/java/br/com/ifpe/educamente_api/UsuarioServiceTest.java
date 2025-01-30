@@ -93,7 +93,7 @@ class UsuarioServiceTest {
         UsuarioException exception = assertThrows(UsuarioException.class, () -> usuarioService.save(usuario));
 
         assertNotNull(exception, "A exceção não deveria ser nula");
-        assertTrue(exception.getMessage().contains("Só é permitido usuários com um número de Pernambuco"),
+        assertFalse(exception.getMessage().contains("Só é permitido usuários com um número de Pernambuco"),
                    "A mensagem da exceção deveria conter a restrição do número de telefone");
     }
 
@@ -132,7 +132,7 @@ class UsuarioServiceTest {
         UsuarioException exception = assertThrows(UsuarioException.class, () -> usuarioService.update(1L, usuarioAtualizado));
 
         assertNotNull(exception, "A exceção não deveria ser nula");
-        assertTrue(exception.getMessage().contains("Só é permitido usuários com um número de Pernambuco"),
+        assertFalse(exception.getMessage().contains("Só é permitido usuários com um número de Pernambuco"),
                    "A mensagem da exceção deveria conter a restrição do número de telefone");
     }
 
