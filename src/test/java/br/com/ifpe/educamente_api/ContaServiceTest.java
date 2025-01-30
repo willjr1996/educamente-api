@@ -1,6 +1,7 @@
 package br.com.ifpe.educamente_api;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
@@ -45,7 +46,9 @@ class ContaServiceTest {
 
         // Mock das dependências
         when(contaRepository.findByUsername(username)).thenReturn(Optional.of(conta));
-        doNothing().when(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
+        // doNothing().when(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
+        doAnswer(invocation -> null).when(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
+
 
         // Executa o teste
         Conta result = contaService.authenticate(username, password);
