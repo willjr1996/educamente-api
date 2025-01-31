@@ -29,14 +29,15 @@ public class ContaService implements UserDetailsService {
         this.repository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
     public Conta authenticate(String username, String password) {
 
-     authenticationManager.authenticate(
-     new UsernamePasswordAuthenticationToken(username, password));
-    
-     return repository.findByUsername(username).orElseThrow();
-     }
-    
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, password));
+
+        return repository.findByUsername(username).orElseThrow();
+    }
+
     @Transactional
     public Conta findByUsername(String username) {
 
