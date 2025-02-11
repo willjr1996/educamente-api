@@ -44,7 +44,7 @@ public class SecurityConfiguration {
 
                 //rotas liberadas provisoriamente
                 .requestMatchers(HttpMethod.POST, "/api/redefinir/*").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/sugestao").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/sugestao/*").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/alimentacao").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/saudemental").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/comportamento").permitAll()

@@ -43,7 +43,7 @@ public class UsuarioService {
 
         usuario = repository.save(usuario);
         
-        emailService.enviarEmailConfirmacaoCadastroCliente(usuario);
+        //emailService.enviarEmailConfirmacaoCadastroCliente(usuario);
         
         return usuario;
     }

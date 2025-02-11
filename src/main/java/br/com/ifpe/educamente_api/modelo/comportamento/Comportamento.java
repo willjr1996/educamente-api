@@ -30,7 +30,10 @@ public class Comportamento extends EntidadeAuditavel {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
     
-    @Column (nullable = false)
+    @Column 
     private String conteudo;
+
+    @Column
+    private String comentario;
  
  }
