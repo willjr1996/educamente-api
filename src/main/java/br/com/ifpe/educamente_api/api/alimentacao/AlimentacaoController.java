@@ -41,12 +41,12 @@ public class AlimentacaoController {
             return alimentacaoService.obterPorID(id);
      }
  
-        @PutMapping("/{id}") 
-        public ResponseEntity<Alimentacao> update(@PathVariable("id") Long id, @RequestBody AlimentacaoRequest request) {
+//         @PutMapping("/{id}") 
+//         public ResponseEntity<Alimentacao> update(@PathVariable("id") Long id, @RequestBody AlimentacaoRequest request) {
  
-            Alimentacao alimentacaoAtualizado = alimentacaoService.update(id, request);
-            return ResponseEntity.ok(alimentacaoAtualizado);
-  }
+//             Alimentacao alimentacaoAtualizado = alimentacaoService.update(id, request);
+//             return ResponseEntity.ok(alimentacaoAtualizado);
+//   }
  
         @DeleteMapping("/{id}")
         public ResponseEntity<Void> delete(@PathVariable Long id) {

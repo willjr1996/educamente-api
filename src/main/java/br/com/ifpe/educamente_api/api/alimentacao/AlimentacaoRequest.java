@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
 public class AlimentacaoRequest {
     
     @NotBlank
-    private String conteudo;
+    private String comentario;
     
     private long usuarioId;
     
         public Alimentacao build(Usuario usuario) {
             return Alimentacao.builder()
-                .conteudo(conteudo)
+                .comentario(comentario)
                 .usuario(usuario)  // Associando o usuário ao SaudeMental
                 .build();
     }

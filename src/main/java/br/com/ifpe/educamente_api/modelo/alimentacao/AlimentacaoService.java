@@ -21,12 +21,12 @@ public class AlimentacaoService {
 
     @Transactional // orgazina 
     public Alimentacao save(Alimentacao alimentacao) {
-    // Buscar o usuário no banco de dados usando o ID
-    // Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
+
+    // Usuario usuario = usuarioRepository.findById(alimentacao.getUsuarioId())
     //                                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + request.getUsuarioId()));
-    // // Construir o objeto alimentação com o usuário encontrado
-    // Alimentacao alimentacao = request.build(usuario);
-    alimentacao.setHabilitado(Boolean.TRUE);
+  
+    // alimentacao.build(usuario);
+    // alimentacao.setHabilitado(Boolean.TRUE);
     return repository.save(alimentacao);
     }
 
@@ -48,17 +48,17 @@ public class AlimentacaoService {
     //     repository.save(alimentacao);
     // }
 
-        @Transactional
-        public Alimentacao update(Long id, AlimentacaoRequest request) {
-        Alimentacao alimentacao = repository.findById(id)
-                                           .orElseThrow(() -> new RuntimeException("Mensagem de alimentação não encontrada com id: " + id));
-        alimentacao.setConteudo(request.getConteudo());
-            Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
-                                               .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + request.getUsuarioId()));
-        alimentacao.setUsuario(usuario);
-        alimentacao.setHabilitado(Boolean.TRUE);
-        return repository.save(alimentacao);
-    }
+        // @Transactional
+        // public Alimentacao update(Long id, AlimentacaoRequest request) {
+        // Alimentacao alimentacao = repository.findById(id)
+        //                                    .orElseThrow(() -> new RuntimeException("Mensagem de alimentação não encontrada com id: " + id));
+        // alimentacao.setConteudo(request.getConteudo());
+        //     Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
+        //                                        .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + request.getUsuarioId()));
+        // alimentacao.setUsuario(usuario);
+        // alimentacao.setHabilitado(Boolean.TRUE);
+        // return repository.save(alimentacao);
+    //}
  
     @Transactional
     public void delete(Long id) {
