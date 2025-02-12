@@ -25,12 +25,12 @@ public class ComportamentoController {
     @Autowired
     private ComportamentoService comportamentoService;
 
-    @PostMapping // pra acessar essa funçao tem que fazer requisiçoes POST
-    public ResponseEntity<Comportamento> save(@RequestBody @Valid ComportamentoRequest request) {
+    // @PostMapping // pra acessar essa funçao tem que fazer requisiçoes POST
+    // public ResponseEntity<Comportamento> save(@RequestBody @Valid ComportamentoRequest request) {
 
-        Comportamento comportamento = comportamentoService.save(request);
-        return new ResponseEntity<>(comportamento, HttpStatus.CREATED);
-    }
+    //     Comportamento comportamento = comportamentoService.save(request);
+    //     return new ResponseEntity<>(comportamento, HttpStatus.CREATED);
+    // }
 
     @GetMapping
     public List<Comportamento> listarTodos() {

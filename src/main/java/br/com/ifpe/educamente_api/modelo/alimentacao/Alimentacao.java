@@ -3,6 +3,7 @@ package br.com.ifpe.educamente_api.modelo.alimentacao;
 
 import org.hibernate.annotations.SQLRestriction;
 
+import br.com.ifpe.educamente_api.modelo.funcionario.Funcionario;
 import br.com.ifpe.educamente_api.modelo.usuario.Usuario;
 import br.com.ifpe.educamente_api.util.entity.EntidadeAuditavel;
 import jakarta.persistence.Column;
@@ -27,8 +28,12 @@ import lombok.Setter;
 public class Alimentacao extends EntidadeAuditavel {
     
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "funcionario_id")
+    private Funcionario funcionario;
     
     @Column
     private String conteudo;

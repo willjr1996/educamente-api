@@ -19,12 +19,12 @@ public class ComportamentoService {
     private UsuarioRepository usuarioRepository; // Repositório do usuário
 
     @Transactional
-    public Comportamento save(ComportamentoRequest request) {
+    public Comportamento save(Comportamento comportamento) {
         // Buscar o usuário no banco de dados usando o ID
-        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + request.getUsuarioId()));
-        // Construir o objeto SaudeMental com o usuário encontrado
-        Comportamento comportamento = request.build(usuario);
+        // Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
+        //         .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + request.getUsuarioId()));
+        // // Construir o objeto SaudeMental com o usuário encontrado
+        // Comportamento comportamento = request.build(usuario);
         comportamento.setHabilitado(Boolean.TRUE);
         return repository.save(comportamento);
     }

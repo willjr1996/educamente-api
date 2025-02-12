@@ -27,6 +27,8 @@ public class SugestaoRequest {
 
     private Long idUsuario;
 
+    private Long idFuncionario;
+
     @NotNull(message = "A mensagem é de preenchimento obrigatório")
     @NotEmpty(message = "A mensagem é de preenchimento obrigatório")
     private String mensagem;

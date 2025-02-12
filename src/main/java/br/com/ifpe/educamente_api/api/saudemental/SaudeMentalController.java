@@ -27,12 +27,12 @@ public class SaudeMentalController {
     @Autowired
     private SaudeMentalService saudeMentalService;
 
-    @PostMapping
-    public ResponseEntity<SaudeMental> save(@RequestBody @Valid SaudeMentalRequest request) {
-        // Chama o serviço para salvar o SaudeMental
-        SaudeMental saudeMental = saudeMentalService.save(request);
-        return new ResponseEntity<>(saudeMental, HttpStatus.CREATED);
-    }
+    // @PostMapping
+    // public ResponseEntity<SaudeMental> save(@RequestBody @Valid SaudeMentalRequest request) {
+    //     // Chama o serviço para salvar o SaudeMental
+    //     SaudeMental saudeMental = saudeMentalService.save(request);
+    //     return new ResponseEntity<>(saudeMental, HttpStatus.CREATED);
+    // }
 
     @GetMapping
     public List<SaudeMental> listarTodos() {

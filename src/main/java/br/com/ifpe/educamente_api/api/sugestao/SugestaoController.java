@@ -22,10 +22,13 @@ import br.com.ifpe.educamente_api.modelo.alimentacao.Alimentacao;
 import br.com.ifpe.educamente_api.modelo.alimentacao.AlimentacaoService;
 import br.com.ifpe.educamente_api.modelo.comportamento.Comportamento;
 import br.com.ifpe.educamente_api.modelo.comportamento.ComportamentoService;
+import br.com.ifpe.educamente_api.modelo.funcionario.Funcionario;
+import br.com.ifpe.educamente_api.modelo.funcionario.FuncionarioRepository;
 import br.com.ifpe.educamente_api.modelo.saudemental.SaudeMental;
 import br.com.ifpe.educamente_api.modelo.saudemental.SaudeMentalService;
 import br.com.ifpe.educamente_api.modelo.sugestao.Sugestao;
 import br.com.ifpe.educamente_api.modelo.sugestao.SugestaoService;
+import br.com.ifpe.educamente_api.modelo.usuario.Usuario;
 import jakarta.validation.Valid;
 
 @RestController // determina que essa classe e do tipo Rest
@@ -45,6 +48,9 @@ public class SugestaoController {
     @Autowired
     private AlimentacaoService alimentacaoService;
 
+    @Autowired
+    private FuncionarioRepository funcionarioRepository;
+
     // @PostMapping //pra acessar essa funçao tem que fazer requisiçoes POST
     // public ResponseEntity<Sugestao> save(@RequestBody @Valid SugestaoRequest
     // request) {
@@ -60,12 +66,18 @@ public class SugestaoController {
 
     @PostMapping("/comportamento")
 public ResponseEntity<Sugestao> saveComportamento(@RequestBody @Valid SugestaoRequest request) {
-    ComportamentoRequest comportamentoRequest = new ComportamentoRequest();
-    comportamentoRequest.setConteudo(request.getMensagem());
-    comportamentoRequest.setUsuarioId(request.getIdUsuario());
+    
+    Funcionario funcionario = funcionarioRepository.findById(request.getIdFuncionario())
+            .orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
 
-    Comportamento comportamento = comportamentoService.save(comportamentoRequest);
+    
+    Comportamento comportamento = new Comportamento();
+    comportamento.setConteudo(request.getMensagem());
+    comportamento.setFuncionario(funcionario);
 
+    comportamento = comportamentoService.save(comportamento);
+
+    
     Sugestao sugestaoNova = new Sugestao();
     sugestaoNova.setMensagem(request.getMensagem());
     sugestaoNova.setDataRegistro(request.getDataRegistro());
@@ -76,13 +88,17 @@ public ResponseEntity<Sugestao> saveComportamento(@RequestBody @Valid SugestaoRe
 }
 
 
+
 @PostMapping("/saudemental")
 public ResponseEntity<Sugestao> saveSaudeMental(@RequestBody @Valid SugestaoRequest request) {
-    SaudeMentalRequest saudeMentalRequest = new SaudeMentalRequest();
-    saudeMentalRequest.setConteudo(request.getMensagem());
-    saudeMentalRequest.setUsuarioId(request.getIdUsuario());
+    Funcionario funcionario = funcionarioRepository.findById(request.getIdFuncionario())
+            .orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
 
-    SaudeMental saudeMental = saudeMentalService.save(saudeMentalRequest);
+    SaudeMental saudeMental = new SaudeMental();
+    saudeMental.setConteudo(request.getMensagem());
+    saudeMental.setFuncionario(funcionario);
+
+    saudeMental = saudeMentalService.save(saudeMental);
 
     Sugestao sugestaoNova = new Sugestao();
     sugestaoNova.setMensagem(request.getMensagem());
@@ -93,27 +109,27 @@ public ResponseEntity<Sugestao> saveSaudeMental(@RequestBody @Valid SugestaoRequ
     return new ResponseEntity<>(sugestao, HttpStatus.CREATED);
 }
 
-
 @PostMapping("/alimentacao")
 public ResponseEntity<Sugestao> saveAlimentacao(@RequestBody @Valid SugestaoRequest request) {
-    // Criar o AlimentacaoRequest com o conteúdo vindo do SugestaoRequest
-    AlimentacaoRequest alimentacaoRequest = new AlimentacaoRequest();
-    alimentacaoRequest.setConteudo(request.getMensagem());  // Definir o conteúdo da alimentação
-    alimentacaoRequest.setUsuarioId(request.getIdUsuario());  // Definir o usuário associado
+    Funcionario funcionario = funcionarioRepository.findById(request.getIdFuncionario())
+            .orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
 
-    // Salvar a alimentação com o método correto do serviço
-    Alimentacao alimentacao = alimentacaoService.save(alimentacaoRequest);  // Passar o AlimentacaoRequest para o serviço
+    Alimentacao alimentacao = new Alimentacao();
+    alimentacao.setConteudo(request.getMensagem());
+    alimentacao.setFuncionario(funcionario);
 
-    // Criar a sugestão associada à alimentação salva
+    alimentacao = alimentacaoService.save(alimentacao);
+
     Sugestao sugestaoNova = new Sugestao();
     sugestaoNova.setMensagem(request.getMensagem());
     sugestaoNova.setDataRegistro(request.getDataRegistro());
     sugestaoNova.setAlimentacao(alimentacao);
 
-    // Salvar a sugestão
     Sugestao sugestao = sugestaoService.save(sugestaoNova);
     return new ResponseEntity<>(sugestao, HttpStatus.CREATED);
 }
+
+
 
 
 

@@ -8,8 +8,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.com.ifpe.educamente_api.modelo.alimentacao.Alimentacao;
 import br.com.ifpe.educamente_api.modelo.comportamento.Comportamento;
+import br.com.ifpe.educamente_api.modelo.funcionario.Funcionario;
 import br.com.ifpe.educamente_api.modelo.saudemental.SaudeMental;
-import br.com.ifpe.educamente_api.modelo.usuario.Usuario;
 import br.com.ifpe.educamente_api.util.entity.EntidadeAuditavel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,7 +34,7 @@ import lombok.Setter;
 public class Sugestao extends EntidadeAuditavel {
 
     @ManyToOne
-    private Usuario usuario;
+    private Funcionario funcionario;
 
     @ManyToOne
     private Alimentacao alimentacao;

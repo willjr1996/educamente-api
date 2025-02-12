@@ -20,12 +20,12 @@ public class AlimentacaoService {
     private UsuarioRepository usuarioRepository;
 
     @Transactional // orgazina 
-    public Alimentacao save(AlimentacaoRequest request) {
+    public Alimentacao save(Alimentacao alimentacao) {
     // Buscar o usuário no banco de dados usando o ID
-    Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
-                                       .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + request.getUsuarioId()));
-    // Construir o objeto alimentação com o usuário encontrado
-    Alimentacao alimentacao = request.build(usuario);
+    // Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
+    //                                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + request.getUsuarioId()));
+    // // Construir o objeto alimentação com o usuário encontrado
+    // Alimentacao alimentacao = request.build(usuario);
     alimentacao.setHabilitado(Boolean.TRUE);
     return repository.save(alimentacao);
     }

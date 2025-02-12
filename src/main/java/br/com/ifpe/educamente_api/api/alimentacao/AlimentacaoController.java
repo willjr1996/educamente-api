@@ -24,12 +24,12 @@ public class AlimentacaoController {
     @Autowired
     private AlimentacaoService alimentacaoService;
  
-    @PostMapping //pra acessar essa funçao tem que fazer requisiçoes POST
-    public ResponseEntity<Alimentacao> save(@RequestBody @Valid AlimentacaoRequest request) {
+    // @PostMapping //pra acessar essa funçao tem que fazer requisiçoes POST
+    // public ResponseEntity<Alimentacao> save(@RequestBody @Valid AlimentacaoRequest request) {
  
-            Alimentacao alimentacao = alimentacaoService.save(request);
-            return new ResponseEntity<>(alimentacao, HttpStatus.CREATED);
-    }
+    //         Alimentacao alimentacao = alimentacaoService.save(request);
+    //         return new ResponseEntity<>(alimentacao, HttpStatus.CREATED);
+    // }
  
         @GetMapping
         public List<Alimentacao> listarTodos() {
