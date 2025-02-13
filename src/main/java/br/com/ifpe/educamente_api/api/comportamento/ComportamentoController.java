@@ -25,32 +25,19 @@ public class ComportamentoController {
     @Autowired
     private ComportamentoService comportamentoService;
 
-    // @PostMapping // pra acessar essa funçao tem que fazer requisiçoes POST
-    // public ResponseEntity<Comportamento> save(@RequestBody @Valid ComportamentoRequest request) {
-
-    //     Comportamento comportamento = comportamentoService.save(request);
-    //     return new ResponseEntity<>(comportamento, HttpStatus.CREATED);
-    // }
-
+ 
     @GetMapping
     public List<Comportamento> listarTodos() {
         return comportamentoService.listarTodos();
     }
 
+ 
     @GetMapping("/{id}")
     public Comportamento obterPorID(@PathVariable Long id) {
         return comportamentoService.obterPorID(id);
     }
 
-        @PutMapping("/{id}")
-    public ResponseEntity<Comportamento> update(@PathVariable("id") Long id, @RequestBody ComportamentoRequest request) {
-        // Chama o serviço de atualização, passando o id e a requisição
-        Comportamento comportamentoAtualizado = comportamentoService.update(id, request);
-    
-        // Retorna o status 200 (OK) com o objeto atualizado no corpo da resposta
-        return ResponseEntity.ok(comportamentoAtualizado);
-    }
-
+        
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 

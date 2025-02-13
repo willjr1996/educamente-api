@@ -34,6 +34,7 @@ import jakarta.validation.Valid;
 @RestController // determina que essa classe e do tipo Rest
 @RequestMapping("/api/sugestao") // DETERMINA A URL para acesar as funçoes dessa classe
 @CrossOrigin // recber requisiçoes javascript
+
 public class SugestaoController {
 
     @Autowired
@@ -51,18 +52,6 @@ public class SugestaoController {
     @Autowired
     private FuncionarioRepository funcionarioRepository;
 
-    // @PostMapping //pra acessar essa funçao tem que fazer requisiçoes POST
-    // public ResponseEntity<Sugestao> save(@RequestBody @Valid SugestaoRequest
-    // request) {
-
-    // Sugestao sugestaoNova = request.build();
-    // sugestaoNova.setComportamento(comportamentoService.obterPorID(request.getIdComportamento()));
-    // sugestaoNova.setSaudeMental(saudeMentalService.obterPorID(request.getIdSaudeMental()));
-    // sugestaoNova.setAlimentacao(alimentacaoService.obterPorID(request.getIdAlimentacao()));
-    // Sugestao sugestao = sugestaoService.save(sugestaoNova);
-
-    // return new ResponseEntity<Sugestao>(sugestao, HttpStatus.CREATED);
-    // }
 
     @PostMapping("/comportamento")
 public ResponseEntity<Sugestao> saveComportamento(@RequestBody @Valid SugestaoRequest request) {
@@ -88,7 +77,6 @@ public ResponseEntity<Sugestao> saveComportamento(@RequestBody @Valid SugestaoRe
 }
 
 
-
 @PostMapping("/saudemental")
 public ResponseEntity<Sugestao> saveSaudeMental(@RequestBody @Valid SugestaoRequest request) {
     Funcionario funcionario = funcionarioRepository.findById(request.getIdFuncionario())
@@ -108,6 +96,7 @@ public ResponseEntity<Sugestao> saveSaudeMental(@RequestBody @Valid SugestaoRequ
     Sugestao sugestao = sugestaoService.save(sugestaoNova);
     return new ResponseEntity<>(sugestao, HttpStatus.CREATED);
 }
+
 
 @PostMapping("/alimentacao")
 public ResponseEntity<Sugestao> saveAlimentacao(@RequestBody @Valid SugestaoRequest request) {
@@ -130,25 +119,17 @@ public ResponseEntity<Sugestao> saveAlimentacao(@RequestBody @Valid SugestaoRequ
 }
 
 
-
-
-
     @GetMapping
     public List<Sugestao> listarTodos() {
         return sugestaoService.listarTodos();
     }
 
-    @GetMapping("/{id}")
+
+     @GetMapping("/{id}")
     public Sugestao obterPorID(@PathVariable Long id) {
         return sugestaoService.obterPorID(id);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Sugestao> update(@PathVariable("id") Long id, @RequestBody SugestaoRequest request) {
-
-        sugestaoService.update(id, request.build());
-        return ResponseEntity.ok().build();
-    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {

@@ -1,7 +1,6 @@
 package br.com.ifpe.educamente_api.api.usuario;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +27,14 @@ public class UsuarioController {
    @Autowired
    private UsuarioService usuarioService;
 
+ 
    @PostMapping //pra acessar essa funçao tem que fazer requisiçoes POST
    public ResponseEntity<Usuario> save(@RequestBody @Valid UsuarioRequest request) {
 
        Usuario usuario = usuarioService.save(request.build());
        return new ResponseEntity<Usuario>(usuario, HttpStatus.CREATED);
    }
+
 
        @GetMapping
     public List<Usuario> listarTodos() {
@@ -45,6 +46,7 @@ public class UsuarioController {
         return usuarioService.obterPorID(id);
     }
 
+   
      @PutMapping("/{id}") 
  public ResponseEntity<Usuario> update(@PathVariable("id") Long id, @RequestBody UsuarioRequest request) {
 
@@ -52,6 +54,7 @@ public class UsuarioController {
        return ResponseEntity.ok().build();
  }
 
+ 
  @DeleteMapping("/{id}")
    public ResponseEntity<Void> delete(@PathVariable Long id) {
 

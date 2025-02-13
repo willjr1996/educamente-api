@@ -44,18 +44,14 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/usuario").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/funcionario").permitAll()
-                        // rotas liberadas provisoriamente
                         .requestMatchers(HttpMethod.POST, "/api/redefinir/*").permitAll()
-                        // .requestMatchers(HttpMethod.POST, "/api/sugestao/*").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/alimentacao").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/saudemental").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/comportamento").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/alimentacao").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/saudemental").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/comportamento").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/notificacao/*").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api-docs/*").permitAll()
                         .requestMatchers(HttpMethod.GET, "/swagger-ui/*").permitAll()
+                        
+                        
+                        .requestMatchers(HttpMethod.POST, "/api/notificacao/*").hasAnyAuthority(
+                                Perfil.ROLE_USUARIO,
+                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
 
                         // PERMISSÕES DE ACESSO DE USUARIO
@@ -106,6 +102,65 @@ public class SecurityConfiguration {
                                 Perfil.ROLE_FUNCIONARIO_ADMIN)
 
                                 .requestMatchers(HttpMethod.POST, "/api/sugestao/*").hasAnyAuthority(
+                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+
+
+                                // PERMISSÕES DE ACESSO DE COMENTARIO
+                        .requestMatchers(HttpMethod.PUT, "/api/comentario/*").hasAnyAuthority(
+                                Perfil.ROLE_FUNCIONARIO_ADMIN, Perfil.ROLE_USUARIO)
+
+                        .requestMatchers(HttpMethod.DELETE, "/api/comentario/*").hasAnyAuthority(
+                                Perfil.ROLE_FUNCIONARIO_ADMIN, Perfil.ROLE_USUARIO)
+
+                        .requestMatchers(HttpMethod.GET, "/api/comentario").hasAnyAuthority(
+                                Perfil.ROLE_USUARIO,
+                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+
+                        .requestMatchers(HttpMethod.GET, "/api/comentario/*").hasAnyAuthority(
+                                Perfil.ROLE_USUARIO,
+                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+
+                                .requestMatchers(HttpMethod.POST, "/api/comentario/*").hasAnyAuthority(
+                                Perfil.ROLE_FUNCIONARIO_ADMIN, Perfil.ROLE_USUARIO)
+
+
+
+                                // PERMISSÕES DE ACESSO DE ALIMENTACAO
+                        .requestMatchers(HttpMethod.DELETE, "/api/alimentacao/*").hasAnyAuthority(
+                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+
+                        .requestMatchers(HttpMethod.GET, "/api/alimentacao").hasAnyAuthority(
+                                Perfil.ROLE_USUARIO,
+                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+
+                        .requestMatchers(HttpMethod.GET, "/api/alimentacao/*").hasAnyAuthority(
+                                Perfil.ROLE_USUARIO,
+                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+
+
+                                // PERMISSÕES DE ACESSO DE SAUDEMENTAL
+                        .requestMatchers(HttpMethod.DELETE, "/api/saudemental/*").hasAnyAuthority(
+                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+
+                        .requestMatchers(HttpMethod.GET, "/api/saudemental").hasAnyAuthority(
+                                Perfil.ROLE_USUARIO,
+                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+
+                        .requestMatchers(HttpMethod.GET, "/api/saudemental/*").hasAnyAuthority(
+                                Perfil.ROLE_USUARIO,
+                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+
+
+                                // PERMISSÕES DE ACESSO DE COMPORTAMENTO
+                        .requestMatchers(HttpMethod.DELETE, "/api/comportamento/*").hasAnyAuthority(
+                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+
+                        .requestMatchers(HttpMethod.GET, "/api/comportamento").hasAnyAuthority(
+                                Perfil.ROLE_USUARIO,
+                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+
+                        .requestMatchers(HttpMethod.GET, "/api/comportamento/*").hasAnyAuthority(
+                                Perfil.ROLE_USUARIO,
                                 Perfil.ROLE_FUNCIONARIO_ADMIN)
 
 

@@ -50,13 +50,14 @@ public class ComentarioController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+  
     @PostMapping("/comportamento")
     public ResponseEntity<Comentario> saveComportamento(@RequestBody @Valid ComentarioRequest request) {
         Usuario usuario = usuarioRepository.findById(request.getIdUsuario())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
         Comportamento comportamento = new Comportamento();
-        comportamento.setConteudo(request.getMensagem());
+        comportamento.setComentario(request.getMensagem());
         comportamento.setUsuario(usuario);
 
         comportamento = comportamentoService.save(comportamento);
@@ -64,6 +65,7 @@ public class ComentarioController {
         Comentario comentarioNovo = new Comentario();
         comentarioNovo.setMensagem(request.getMensagem());
         comentarioNovo.setDataRegistro(request.getDataRegistro());
+        comentarioNovo.setUsuario(usuario);
         comentarioNovo.setComportamento(comportamento);
 
         Comentario comentario = comentarioService.save(comentarioNovo);
@@ -76,7 +78,7 @@ public class ComentarioController {
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
         SaudeMental saudeMental = new SaudeMental();
-        saudeMental.setConteudo(request.getMensagem());
+        saudeMental.setComentario(request.getMensagem());
         saudeMental.setUsuario(usuario);
 
         saudeMental = saudeMentalService.save(saudeMental);
@@ -96,7 +98,7 @@ public class ComentarioController {
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
         Alimentacao alimentacao = new Alimentacao();
-        alimentacao.setConteudo(request.getMensagem());
+        alimentacao.setComentario(request.getMensagem());
         alimentacao.setUsuario(usuario);
 
         alimentacao = alimentacaoService.save(alimentacao);
@@ -110,21 +112,18 @@ public class ComentarioController {
         return new ResponseEntity<>(comentario, HttpStatus.CREATED);
     }
 
+
     @GetMapping
     public List<Comentario> listarTodos() {
         return comentarioService.listarTodos();
     }
+
 
     @GetMapping("/{id}")
     public Comentario obterPorID(@PathVariable Long id) {
         return comentarioService.obterPorID(id);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Comentario> update(@PathVariable("id") Long id, @RequestBody ComentarioRequest request) {
-        comentarioService.update(id, request.build());
-        return ResponseEntity.ok().build();
-    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {

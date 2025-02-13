@@ -26,17 +26,6 @@ public class ComentarioService {
         return repository.findById(id).get();
     }
 
-    @Transactional
-    public void update(Long id, Comentario comentarioAlterado) {
-        Comentario comentario = repository.findById(id).get();
-        comentario.setComportamento(comentarioAlterado.getComportamento());
-        comentario.setSaudeMental(comentarioAlterado.getSaudeMental());
-        comentario.setAlimentacao(comentarioAlterado.getAlimentacao());
-        comentario.setMensagem(comentarioAlterado.getMensagem());
-        comentario.setDataRegistro(comentarioAlterado.getDataRegistro());
-        
-        repository.save(comentario);
-    }
 
     @Transactional
     public void delete(Long id) {

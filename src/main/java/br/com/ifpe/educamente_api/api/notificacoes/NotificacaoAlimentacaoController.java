@@ -1,5 +1,7 @@
 package br.com.ifpe.educamente_api.api.notificacoes;
 
+
+
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import jakarta.mail.MessagingException;
 @RestController
 @RequestMapping("/api/notificacao")
 @CrossOrigin
+
 public class NotificacaoAlimentacaoController {
 
     @Autowired
@@ -29,7 +32,6 @@ public class NotificacaoAlimentacaoController {
     @Autowired
     private AlimentacaoRepository alimentacaoRepository;
 
-    // //Nessa rota, deve-se colocar o email para procurar se existe no banco. Se existir o email será enviado o email da notificação.
     @PostMapping("/alimentacao")
     public ResponseEntity<String> enviarMsg(@RequestParam String email) throws MessagingException {
         Optional<Conta> contaOptional = contaRepository.findByUsername(email);

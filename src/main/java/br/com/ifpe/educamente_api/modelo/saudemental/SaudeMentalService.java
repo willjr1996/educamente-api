@@ -19,11 +19,7 @@ public class SaudeMentalService {
 
 @Transactional
 public SaudeMental save(SaudeMental saudeMental) {
-    // Buscar o usuário no banco de dados usando o ID
-    // Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
-    //                                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + request.getUsuarioId()));
-    // // Construir o objeto SaudeMental com o usuário encontrado
-    // SaudeMental saudeMental = request.build(usuario);
+    
     saudeMental.setHabilitado(Boolean.TRUE);
     return repository.save(saudeMental);
 }
@@ -40,17 +36,6 @@ public SaudeMental save(SaudeMental saudeMental) {
         return repository.findByUsuario_Id(usuarioId);
     }
 
-    @Transactional
-    public SaudeMental update(Long id, SaudeMentalRequest request) {
-        SaudeMental saudeMental = repository.findById(id)
-                                           .orElseThrow(() -> new RuntimeException("Mensagem de Saúde mental não encontrada com id: " + id));
-        saudeMental.setConteudo(request.getConteudo());
-            Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
-                                               .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + request.getUsuarioId()));
-        saudeMental.setUsuario(usuario);
-        saudeMental.setHabilitado(Boolean.TRUE);
-        return repository.save(saudeMental);
-    }
 
     @Transactional
     public void delete(Long id) {

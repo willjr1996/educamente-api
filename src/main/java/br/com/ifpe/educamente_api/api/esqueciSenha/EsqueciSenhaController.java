@@ -36,7 +36,6 @@ public class EsqueciSenhaController {
     @Autowired
     private ContaRepository contaRepository;
     
-    //Nessa rota, deve-se colocar o email para procurar se existe no banco. Se existir o email será enviado com o link para redefinição.
     @PostMapping("/esqueci-senha")
     public ResponseEntity<String> esqueciSenha(@RequestParam String email) throws MessagingException {
         Optional<Conta> contaOptional = contaRepository.findByUsername(email);
@@ -47,7 +46,6 @@ public class EsqueciSenhaController {
         return ResponseEntity.badRequest().body("Conta não encontrada.");
     }
 
-    //Nessa rota, o token é colocado e a nova senha é trocada no banco. O token vem pela url e por json será colocada a nova senha
     @PostMapping("/resetar-senha")
     public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestBody String newPassword) {
         Optional<PasswordResetToken> resetTokenOpt = tokenRepository.findByToken(token);

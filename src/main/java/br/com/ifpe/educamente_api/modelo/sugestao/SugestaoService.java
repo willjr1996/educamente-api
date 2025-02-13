@@ -30,19 +30,6 @@ public class SugestaoService {
         return repository.findById(id).get();
     }
 
-    @Transactional
-    public void update(Long id, Sugestao sugestaoAlterado) {
-
- 
-        Sugestao sugestao = repository.findById(id).get();
-        sugestao.setComportamento(sugestaoAlterado.getComportamento());
-        sugestao.setSaudeMental(sugestaoAlterado.getSaudeMental());
-        sugestao.setAlimentacao(sugestaoAlterado.getAlimentacao());
-       sugestao.setMensagem(sugestaoAlterado.getMensagem());
-       sugestao.setDataRegistro(sugestaoAlterado.getDataRegistro());
- 
-       repository.save(sugestao);
-   }
  
    @Transactional
    public void delete(Long id) {

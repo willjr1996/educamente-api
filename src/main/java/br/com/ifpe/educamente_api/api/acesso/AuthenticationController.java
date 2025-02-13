@@ -24,6 +24,7 @@ import br.com.ifpe.educamente_api.modelo.seguranca.JwtService;
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin
+
 public class AuthenticationController {
 
     private final JwtService jwtService;
