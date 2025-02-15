@@ -24,168 +24,168 @@ import br.com.ifpe.educamente_api.modelo.seguranca.JwtAuthenticationFilter;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    private final AuthenticationProvider authenticationProvider;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+        private final AuthenticationProvider authenticationProvider;
+        private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter,
-            AuthenticationProvider authenticationProvider) {
-        this.authenticationProvider = authenticationProvider;
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    }
+        public SecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter,
+                        AuthenticationProvider authenticationProvider) {
+                this.authenticationProvider = authenticationProvider;
+                this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(c -> c.disable())
-                .authorizeHttpRequests(authorize -> authorize
+                http
+                                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                                .csrf(c -> c.disable())
+                                .authorizeHttpRequests(authorize -> authorize
 
-                        .requestMatchers(HttpMethod.POST, "/api/usuario").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/funcionario").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/redefinir/*").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api-docs/*").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/swagger-ui/*").permitAll()
-                        
-                        
-                        .requestMatchers(HttpMethod.POST, "/api/notificacao/*").hasAnyAuthority(
-                                Perfil.ROLE_USUARIO,
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                .requestMatchers(HttpMethod.POST, "/api/usuario").permitAll()
+                                                .requestMatchers(HttpMethod.POST, "/api/auth").permitAll()
+                                                .requestMatchers(HttpMethod.POST, "/api/funcionario").permitAll()
+                                                .requestMatchers(HttpMethod.POST, "/api/redefinir/*").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/api-docs/*").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/swagger-ui/*").permitAll()
 
+                                                .requestMatchers(HttpMethod.POST, "/api/notificacao/*").hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                        // PERMISSÕES DE ACESSO DE USUARIO
-                        .requestMatchers(HttpMethod.PUT, "/api/usuario/*").hasAnyAuthority(
-                                Perfil.ROLE_USUARIO,
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                // PERMISSÕES DE ACESSO DE USUARIO
+                                                .requestMatchers(HttpMethod.PUT, "/api/usuario/*").hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                        .requestMatchers(HttpMethod.DELETE, "/api/usuario/*").hasAnyAuthority(
-                                Perfil.ROLE_USUARIO,
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                .requestMatchers(HttpMethod.DELETE, "/api/usuario/*").hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                        .requestMatchers(HttpMethod.GET, "/api/usuario").hasAnyAuthority(
-                                Perfil.ROLE_USUARIO,
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                .requestMatchers(HttpMethod.GET, "/api/usuario").hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                        .requestMatchers(HttpMethod.GET, "/api/usuario/*").hasAnyAuthority(
-                                Perfil.ROLE_USUARIO,
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                .requestMatchers(HttpMethod.GET, "/api/usuario/*").hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
+                                                // PERMISSÕES DE ACESSO DE FUNCIONARIO
+                                                .requestMatchers(HttpMethod.PUT, "/api/funcionario/*").hasAnyAuthority(
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                                // PERMISSÕES DE ACESSO DE FUNCIONARIO
-                        .requestMatchers(HttpMethod.PUT, "/api/funcionario/*").hasAnyAuthority(
-                            Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                .requestMatchers(HttpMethod.DELETE, "/api/funcionario/*")
+                                                .hasAnyAuthority(
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                    .requestMatchers(HttpMethod.DELETE, "/api/funcionario/*").hasAnyAuthority(
-                            Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                .requestMatchers(HttpMethod.GET, "/api/funcionario").hasAnyAuthority(
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                    .requestMatchers(HttpMethod.GET, "/api/funcionario").hasAnyAuthority(
-                            Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                .requestMatchers(HttpMethod.GET, "/api/funcionario/*").hasAnyAuthority(
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                    .requestMatchers(HttpMethod.GET, "/api/funcionario/*").hasAnyAuthority(
-                            Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                // PERMISSÕES DE ACESSO DE SUGESTAO
+                                                .requestMatchers(HttpMethod.PUT, "/api/sugestao/*").hasAnyAuthority(
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
+                                                .requestMatchers(HttpMethod.DELETE, "/api/sugestao/*").hasAnyAuthority(
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                        // PERMISSÕES DE ACESSO DE SUGESTAO
-                        .requestMatchers(HttpMethod.PUT, "/api/sugestao/*").hasAnyAuthority(
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                .requestMatchers(HttpMethod.GET, "/api/sugestao").hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                        .requestMatchers(HttpMethod.DELETE, "/api/sugestao/*").hasAnyAuthority(
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                .requestMatchers(HttpMethod.GET, "/api/sugestao/*").hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                        .requestMatchers(HttpMethod.GET, "/api/sugestao").hasAnyAuthority(
-                                Perfil.ROLE_USUARIO,
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                .requestMatchers(HttpMethod.POST, "/api/sugestao/*").hasAnyAuthority(
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                        .requestMatchers(HttpMethod.GET, "/api/sugestao/*").hasAnyAuthority(
-                                Perfil.ROLE_USUARIO,
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                // PERMISSÕES DE ACESSO DE COMENTARIO
+                                                .requestMatchers(HttpMethod.PUT, "/api/comentario/*").hasAnyAuthority(
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN, Perfil.ROLE_USUARIO)
 
-                                .requestMatchers(HttpMethod.POST, "/api/sugestao/*").hasAnyAuthority(
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                .requestMatchers(HttpMethod.DELETE, "/api/comentario/*")
+                                                .hasAnyAuthority(
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN, Perfil.ROLE_USUARIO)
 
+                                                .requestMatchers(HttpMethod.GET, "/api/comentario").hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                                // PERMISSÕES DE ACESSO DE COMENTARIO
-                        .requestMatchers(HttpMethod.PUT, "/api/comentario/*").hasAnyAuthority(
-                                Perfil.ROLE_FUNCIONARIO_ADMIN, Perfil.ROLE_USUARIO)
+                                                .requestMatchers(HttpMethod.GET, "/api/comentario/*").hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                        .requestMatchers(HttpMethod.DELETE, "/api/comentario/*").hasAnyAuthority(
-                                Perfil.ROLE_FUNCIONARIO_ADMIN, Perfil.ROLE_USUARIO)
+                                                .requestMatchers(HttpMethod.POST, "/api/comentario/*").hasAnyAuthority(
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN, Perfil.ROLE_USUARIO)
 
-                        .requestMatchers(HttpMethod.GET, "/api/comentario").hasAnyAuthority(
-                                Perfil.ROLE_USUARIO,
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                // PERMISSÕES DE ACESSO DE ALIMENTACAO
+                                                .requestMatchers(HttpMethod.DELETE, "/api/alimentacao/*")
+                                                .hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                        .requestMatchers(HttpMethod.GET, "/api/comentario/*").hasAnyAuthority(
-                                Perfil.ROLE_USUARIO,
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                .requestMatchers(HttpMethod.GET, "/api/alimentacao").hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                                .requestMatchers(HttpMethod.POST, "/api/comentario/*").hasAnyAuthority(
-                                Perfil.ROLE_FUNCIONARIO_ADMIN, Perfil.ROLE_USUARIO)
+                                                .requestMatchers(HttpMethod.GET, "/api/alimentacao/*").hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
+                                                // PERMISSÕES DE ACESSO DE SAUDEMENTAL
+                                                .requestMatchers(HttpMethod.DELETE, "/api/saudemental/*")
+                                                .hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
+                                                .requestMatchers(HttpMethod.GET, "/api/saudemental").hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                                // PERMISSÕES DE ACESSO DE ALIMENTACAO
-                        .requestMatchers(HttpMethod.DELETE, "/api/alimentacao/*").hasAnyAuthority(
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                .requestMatchers(HttpMethod.GET, "/api/saudemental/*").hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                        .requestMatchers(HttpMethod.GET, "/api/alimentacao").hasAnyAuthority(
-                                Perfil.ROLE_USUARIO,
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                // PERMISSÕES DE ACESSO DE COMPORTAMENTO
+                                                .requestMatchers(HttpMethod.DELETE, "/api/comportamento/*")
+                                                .hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN
+                                                                )
 
-                        .requestMatchers(HttpMethod.GET, "/api/alimentacao/*").hasAnyAuthority(
-                                Perfil.ROLE_USUARIO,
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                .requestMatchers(HttpMethod.GET, "/api/comportamento").hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
+                                                .requestMatchers(HttpMethod.GET, "/api/comportamento/*")
+                                                .hasAnyAuthority(
+                                                                Perfil.ROLE_USUARIO,
+                                                                Perfil.ROLE_FUNCIONARIO_ADMIN)
 
-                                // PERMISSÕES DE ACESSO DE SAUDEMENTAL
-                        .requestMatchers(HttpMethod.DELETE, "/api/saudemental/*").hasAnyAuthority(
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                                .anyRequest().authenticated()
 
-                        .requestMatchers(HttpMethod.GET, "/api/saudemental").hasAnyAuthority(
-                                Perfil.ROLE_USUARIO,
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                                )
+                                .sessionManagement((session) -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .authenticationProvider(authenticationProvider)
+                                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-                        .requestMatchers(HttpMethod.GET, "/api/saudemental/*").hasAnyAuthority(
-                                Perfil.ROLE_USUARIO,
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                return http.build();
+        }
 
+        public CorsConfigurationSource corsConfigurationSource() {
 
-                                // PERMISSÕES DE ACESSO DE COMPORTAMENTO
-                        .requestMatchers(HttpMethod.DELETE, "/api/comportamento/*").hasAnyAuthority(
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                CorsConfiguration configuration = new CorsConfiguration();
 
-                        .requestMatchers(HttpMethod.GET, "/api/comportamento").hasAnyAuthority(
-                                Perfil.ROLE_USUARIO,
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
+                configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+                configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+                configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+                configuration.setAllowCredentials(true);
 
-                        .requestMatchers(HttpMethod.GET, "/api/comportamento/*").hasAnyAuthority(
-                                Perfil.ROLE_USUARIO,
-                                Perfil.ROLE_FUNCIONARIO_ADMIN)
-
-
-                        .anyRequest().authenticated()
-
-                )
-                .sessionManagement((session) -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
-    }
-
-    public CorsConfigurationSource corsConfigurationSource() {
-
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-        configuration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                source.registerCorsConfiguration("/**", configuration);
+                return source;
+        }
 }

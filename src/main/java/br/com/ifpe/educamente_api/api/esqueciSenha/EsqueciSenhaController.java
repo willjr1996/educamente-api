@@ -16,6 +16,7 @@ import br.com.ifpe.educamente_api.modelo.acesso.Conta;
 import br.com.ifpe.educamente_api.modelo.acesso.PasswordResetService;
 import br.com.ifpe.educamente_api.modelo.acesso.PasswordResetToken;
 import br.com.ifpe.educamente_api.modelo.acesso.PasswordResetTokenRepository;
+import br.com.ifpe.educamente_api.modelo.acesso.ResetPasswordRequest;
 import br.com.ifpe.educamente_api.modelo.acesso.ContaRepository;
 import jakarta.mail.MessagingException;
 
@@ -47,7 +48,7 @@ public class EsqueciSenhaController {
     }
 
     @PostMapping("/resetar-senha")
-    public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestBody String newPassword) {
+    public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestBody ResetPasswordRequest request) {
         Optional<PasswordResetToken> resetTokenOpt = tokenRepository.findByToken(token);
 
         if (resetTokenOpt.isPresent()) {
@@ -58,7 +59,7 @@ public class EsqueciSenhaController {
             }
 
             Conta conta = resetToken.getConta();
-            conta.setPassword(passwordEncoder.encode(newPassword));
+            conta.setPassword(passwordEncoder.encode(request.getPassword()));
             contaRepository.save(conta);
             
             tokenRepository.delete(resetToken); // Remove o token após o uso.

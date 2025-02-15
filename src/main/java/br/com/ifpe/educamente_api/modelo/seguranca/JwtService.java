@@ -90,6 +90,11 @@ public class JwtService {
         return Long.parseLong(claims.get("funcionarioId", String.class));
     }
 
+    public String extractNome(String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.get("nome", String.class);
+    }
+    
     // Função para gerar o token com o ID do Funcionário
     public String generateTokenWithFuncionarioId(UserDetails userDetails, Long funcionarioId) {
         Map<String, Object> claims = new HashMap<>();
@@ -98,7 +103,7 @@ public class JwtService {
         return buildToken(claims, userDetails, jwtExpiration);
     }
 
-    public String generateTokenWithUsuarioOrFuncionario(UserDetails userDetails, Long usuarioId, Long funcionarioId) {
+    public String generateTokenWithUsuarioOrFuncionario(UserDetails userDetails, Long usuarioId, Long funcionarioId, String nome) {
         Map<String, Object> claims = new HashMap<>();
         
         // Verifica se o usuário é um Funcionário ou um Usuário e adiciona o ID adequado
@@ -108,6 +113,7 @@ public class JwtService {
         if (funcionarioId != null) {
             claims.put("funcionarioId", funcionarioId); // Adiciona o ID do funcionário
         }
+        claims.put("nome", nome);
     
         return buildToken(claims, userDetails, jwtExpiration);
     }
