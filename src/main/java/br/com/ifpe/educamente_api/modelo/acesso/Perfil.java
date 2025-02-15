@@ -24,7 +24,7 @@ public class Perfil extends EntidadeNegocio implements GrantedAuthority {
   
    public static final String ROLE_USUARIO = "USUARIO";
    public static final String ROLE_FUNCIONARIO_ADMIN = "ROLE_FUNCIONARIO_ADMIN"; // READ, DELETE, WRITE, UPDATE.
-   //public static final String ROLE_FUNCIONARIO_USER = "ROLE_FUNCIONARIO_USER"; // READ, WRITE, UPDATE.
+
   
    private String nome;
   

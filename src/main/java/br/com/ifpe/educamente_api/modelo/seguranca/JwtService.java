@@ -26,32 +26,27 @@ public class JwtService {
     private long jwtExpiration;
 
     public String extractUsername(String token) {
-        
         return extractClaim(token, Claims::getSubject);
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
     public String generateToken(UserDetails userDetails) {
-
         return generateToken(new HashMap<>(), userDetails);
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
     public long getExpirationTime() {
-
         return jwtExpiration;
     }
-    private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
 
+    private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -63,23 +58,19 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
-
         return extractExpiration(token).before(new Date());
     }
 
     private Date extractExpiration(String token) {
-
         return extractClaim(token, Claims::getExpiration);
     }
 
     private Claims extractAllClaims(String token) {
-
         return Jwts
                 .parserBuilder()
                 .setSigningKey(getSignInKey())
@@ -89,9 +80,35 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
-
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    // Função para extrair o ID do Funcionário do token JWT
+    public Long extractFuncionarioId(String token) {
+        Claims claims = extractAllClaims(token);
+        return Long.parseLong(claims.get("funcionarioId", String.class));
+    }
+
+    // Função para gerar o token com o ID do Funcionário
+    public String generateTokenWithFuncionarioId(UserDetails userDetails, Long funcionarioId) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("funcionarioId", funcionarioId); // Adicionando o ID do funcionário nos claims
+
+        return buildToken(claims, userDetails, jwtExpiration);
+    }
+
+    public String generateTokenWithUsuarioOrFuncionario(UserDetails userDetails, Long usuarioId, Long funcionarioId) {
+        Map<String, Object> claims = new HashMap<>();
+        
+        // Verifica se o usuário é um Funcionário ou um Usuário e adiciona o ID adequado
+        if (usuarioId != null) {
+            claims.put("usuarioId", usuarioId); // Adiciona o ID do usuário
+        }
+        if (funcionarioId != null) {
+            claims.put("funcionarioId", funcionarioId); // Adiciona o ID do funcionário
+        }
+    
+        return buildToken(claims, userDetails, jwtExpiration);
+    }
 }

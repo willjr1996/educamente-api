@@ -36,10 +36,6 @@ public class Funcionario extends EntidadeAuditavel {
    @JoinColumn(nullable = false)
    private Conta conta;
 
-   // @Column(nullable = false)
-   // @Enumerated(EnumType.STRING)
-   // private TipoFuncionario tipo;
-
    @Column
    private String nome;
 

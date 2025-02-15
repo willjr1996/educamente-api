@@ -1,67 +1,89 @@
 package br.com.ifpe.educamente_api.api.acesso;
-import java.util.Optional;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ifpe.educamente_api.modelo.acesso.Conta;
-import br.com.ifpe.educamente_api.modelo.acesso.ContaRepository;
 import br.com.ifpe.educamente_api.modelo.acesso.ContaService;
-import br.com.ifpe.educamente_api.modelo.acesso.PasswordResetService;
-import br.com.ifpe.educamente_api.modelo.acesso.PasswordResetToken;
-import br.com.ifpe.educamente_api.modelo.acesso.PasswordResetTokenRepository;
+import br.com.ifpe.educamente_api.modelo.acesso.Perfil;
+import br.com.ifpe.educamente_api.modelo.funcionario.Funcionario;
+import br.com.ifpe.educamente_api.modelo.funcionario.FuncionarioRepository;
+import br.com.ifpe.educamente_api.modelo.usuario.Usuario;
+import br.com.ifpe.educamente_api.modelo.usuario.UsuarioRepository;
 import br.com.ifpe.educamente_api.modelo.seguranca.JwtService;
 
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin
-
 public class AuthenticationController {
 
     private final JwtService jwtService;
-    
-    private ContaService contaService;
+    private final ContaService contaService;
+    private final FuncionarioRepository funcionarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
     @Autowired
-    private PasswordResetTokenRepository tokenRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private PasswordResetService passwordResetService;
-
-    @Autowired
-    private ContaRepository contaRepository;
-
-    public AuthenticationController(JwtService jwtService, ContaService contaService) {
-
+    public AuthenticationController(JwtService jwtService, ContaService contaService, 
+                                   FuncionarioRepository funcionarioRepository, 
+                                   UsuarioRepository usuarioRepository) {
         this.jwtService = jwtService;
         this.contaService = contaService;
+        this.funcionarioRepository = funcionarioRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @PostMapping
-    public Map<Object, Object> signin(@RequestBody AuthenticationRequest data) {
-    
-        Conta authenticatedUser = contaService.authenticate(data.getUsername(), data.getPassword());
+public Map<Object, Object> signin(@RequestBody AuthenticationRequest data) {
+    Conta authenticatedUser = contaService.authenticate(data.getUsername(), data.getPassword());
 
-        String jwtToken = jwtService.generateToken(authenticatedUser);
+    Long funcionarioId = null;
+    Long usuarioId = null;
 
-        Map<Object, Object> loginResponse = new HashMap<>();
-        loginResponse.put("username", authenticatedUser.getUsername());
-        loginResponse.put("token", jwtToken);
-        loginResponse.put("tokenExpiresIn", jwtService.getExpirationTime());
-        loginResponse.put("role", authenticatedUser.getRole());
-        loginResponse.put("id", authenticatedUser.getId());
-        return loginResponse;
-    }    
+    // Verifique os papéis de forma robusta
+    for (Perfil role : authenticatedUser.getRoles()) {
+        if (role.getAuthority().equals(Perfil.ROLE_FUNCIONARIO_ADMIN)) {
+            Funcionario funcionario = funcionarioRepository.findByConta(authenticatedUser);
+            if (funcionario != null) {
+                funcionarioId = funcionario.getId();
+            }
+        }
+
+        if (role.getAuthority().equals(Perfil.ROLE_USUARIO)) {
+            Usuario usuario = usuarioRepository.findByConta(authenticatedUser);
+            if (usuario != null) {
+                usuarioId = usuario.getId();
+            }
+        }
+    }
+
+    // Gerar o token JWT
+    String jwtToken = jwtService.generateTokenWithFuncionarioId(authenticatedUser, funcionarioId);
+
+    Map<Object, Object> loginResponse = new HashMap<>();
+    loginResponse.put("username", authenticatedUser.getUsername());
+    loginResponse.put("token", jwtToken);
+    loginResponse.put("tokenExpiresIn", jwtService.getExpirationTime());
+    loginResponse.put("role", authenticatedUser.getRole());
+    loginResponse.put("id", authenticatedUser.getId());
+
+    // Se o Funcionario for encontrado, adicionar o 'funcionarioId' ao retorno
+    if (funcionarioId != null) {
+        loginResponse.put("funcionarioId", funcionarioId);
+    }
+
+    // Se o Usuario for encontrado, adicionar o 'usuarioId' ao retorno
+    if (usuarioId != null) {
+        loginResponse.put("usuarioId", usuarioId);
+    }
+
+    return loginResponse;
+}
+
 }
