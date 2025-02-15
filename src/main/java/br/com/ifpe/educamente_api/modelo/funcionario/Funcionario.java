@@ -1,4 +1,5 @@
 package br.com.ifpe.educamente_api.modelo.funcionario;
+
 import java.time.LocalDate;
 
 import org.hibernate.annotations.SQLRestriction;
@@ -30,14 +31,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Funcionario extends EntidadeAuditavel {
-    
-    @OneToOne
+
+   @OneToOne
    @JoinColumn(nullable = false)
    private Conta conta;
 
-//    @Column(nullable = false)
-//    @Enumerated(EnumType.STRING)
-//    private TipoFuncionario tipo;
+   // @Column(nullable = false)
+   // @Enumerated(EnumType.STRING)
+   // private TipoFuncionario tipo;
 
    @Column
    private String nome;

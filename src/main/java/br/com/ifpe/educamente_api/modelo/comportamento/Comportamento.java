@@ -35,8 +35,6 @@ public class Comportamento extends EntidadeAuditavel {
     @JoinColumn(name = "funcionario_id")
     private Funcionario funcionario;
 
-    
-    
     @Column 
     private String conteudo;
 

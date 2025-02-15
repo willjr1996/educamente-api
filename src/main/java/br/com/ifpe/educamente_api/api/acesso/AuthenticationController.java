@@ -60,8 +60,8 @@ public class AuthenticationController {
         loginResponse.put("username", authenticatedUser.getUsername());
         loginResponse.put("token", jwtToken);
         loginResponse.put("tokenExpiresIn", jwtService.getExpirationTime());
-
+        loginResponse.put("role", authenticatedUser.getRole());
+        loginResponse.put("id", authenticatedUser.getId());
         return loginResponse;
     }    
-
 }

@@ -76,4 +76,9 @@ public class Conta extends EntidadeNegocio implements UserDetails {
    public boolean isEnabled() {
        return true;
    }
+
+   public String getRole() {
+    // return the role of the user
+    return this.roles.get(0).getAuthority();
+}
 }

@@ -55,6 +55,4 @@ public class FuncionarioRequest {
                 .password(password)
                 .build();
     }
-
-
 }

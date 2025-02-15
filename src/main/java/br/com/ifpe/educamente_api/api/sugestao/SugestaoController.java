@@ -54,7 +54,7 @@ public class SugestaoController {
 
 
     @PostMapping("/comportamento")
-public ResponseEntity<Sugestao> saveComportamento(@RequestBody @Valid SugestaoRequest request) {
+    public ResponseEntity<Sugestao> saveComportamento(@RequestBody @Valid SugestaoRequest request) {
     
     Funcionario funcionario = funcionarioRepository.findById(request.getIdFuncionario())
             .orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
